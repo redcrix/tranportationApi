@@ -37,6 +37,7 @@ public $successStatus = 200;/**
             'email' => 'required|email|unique:users',
             'password' => 'required', 
             'c_password' => 'required|same:password',
+            'user_type' => 'required|numeric',
             'mobile' => 'required|regex:/[0-9]{9}/',
             'pin_code' => 'required',
             'approved' => 'required',
@@ -47,7 +48,7 @@ if ($validator->fails()) {
 $input = $request->all(); 
         $input['password'] = bcrypt($input['password']); 
         $user = User::create($input); 
-        $success['token'] =  $user->createToken('MyApp')-> accessToken; 
+        $success['api_token'] =  $user->createToken('MyApp')-> accessToken; 
         $success['name'] =  $user->first_name.' '.$user->last_name;
 return response()->json(['success'=>$success,'message'=>'User Created successfully'], $this-> successStatus); 
     }
